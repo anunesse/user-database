@@ -1,0 +1,23 @@
+**.iml
+**/.DS_Store
+**/*.orig
+
+# Eclipse
+.classpath
+.settings
+.project
+
+*/app/.buildignore
+*/app/.htaccess
+.editorconfig
+.gitattributes
+.jshintrc
+.travis.yml
+.idea
+
+node_modules/
+bower_components/
+app/bower_components/
+target/
+dist/
+.tmp/
