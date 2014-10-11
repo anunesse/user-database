@@ -54,9 +54,21 @@ desktop:~$ bower --version
 
 ##LAUNCH
 
+* Cloner le projet : 
+```shell
+desktop:~$ git clone https://github.com/anunesse/user-database.git
+desktop:~$ cd user-database
+```
+
+* Installer les dépendances : 
+```shell
+desktop:~/user-database$ npm install
+desktop:~/user-database$ bower install
+```
+
 * Déployer votre serveur de développement (déployé sur http://localhost:9090) :
 ```shell
-desktop:~$ grunt serve
+desktop:~/user-database$ grunt serve
 ...
 Running "connect:livereload" (connect) task
 Started connect web server on 127.0.0.1:9090.
@@ -66,7 +78,7 @@ Waiting...
 
 * Générer votre site web pour le déployer sur un autre serveur (site web généré dans dist/) :
 ```shell
-desktop:~$ grunt build
+desktop:~/user-database$ grunt build
 ...
 Done, without errors
 Execution Time (2014-10-10 12:25:19 UTC)
