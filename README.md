@@ -13,7 +13,7 @@ Projet généré avec yeoman v1.2.1
 
 ##SETUP
 
-> Les divers outils présentés doivent être présent dans votre Path pour être utilisés. Je ne reviens pas ici sur les différents moyens d'installer ces outils en fonction de votre OS cependant il est conseillé d'utiliser une application tierce sous windows comme chocolatey. NPM est embarqué avec NodeJS dans les dernière version, il faut vérifier que ses dépendances sont installées correctement dans NodeJS.
+> Les divers outils présentés doivent être présent dans votre Path pour être utilisés. Je ne reviens pas ici sur les différents moyens d'installer ces outils en fonction de votre OS cependant il est conseillé d'utiliser une application tierce sous windows comme chocolatey. NPM est embarqué avec NodeJS dans les dernières versions, il faut vérifier que ses dépendances sont installées correctement dans NodeJS.
 
 * Installer la dernière version de [Nodejs](http://nodejs.org/) & vérifier l'installation : 
 ```shell
@@ -77,3 +77,72 @@ Total 11.1s
 ```
 
 ##PRACTICE
+
+> La pluspart des fichiers du projet sont commentés pour comprendre le fonctionnement de l'application. Ce projet est un site web statique mais il doit être rendu par un serveur, pour cela il s'agit d'uiliser le serveur de développement ou de déployer le dossier dist/ sur un serveur de type Apache ou Nginx en local.
+
+###Principaux fichiers
+
+* package.json : fichier de configuration de NPM, il contient les différents modules requis par le projet, notamment les dépendances de Grunt
+```json
+{
+  "name": "userdatabase",
+  "version": "0.0.0",
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    ...
+  }
+}
+```
+* Gruntfile.js : fichier contenant les commandes disponibles, il est possibles de modifier ces commandes, d'en ajouter etc.. Les commandes principales sont : 
+```javascript
+grunt.registerTask('build');
+grunt.registerTask('serve');
+```
+* bower.json : fichier contenant les dépendances installées avec Bower, lorsque l'on utilise cet utilitaire pour intégrer des dépendances celles-ci sont téléchargées dans le dossier bower_components/. NB : Celles-ci seront ajoutées à ce fichier en utilisant l'option --save : 
+```shell
+desktop:~$ bower install font-awesome --save
+...
+font-awesome#4.2.0 app/bower_components/font-awesome
+```
+```json
+{
+  "name": "user-database",
+  "version": "0.0.0",
+  "dependencies": {
+    ...
+    "bootstrap": "~3.0.3",
+    "angular-resource": "1.2.15",
+    "angular-cookies": "1.2.15",
+    "angular-sanitize": "1.2.15",
+    "angular-route": "1.2.15",
+    "font-awesome": "~4.2.0"
+  }
+}
+```
+* app/index.html : ce fichier est le point d'entrée de votre application, il déclare le module angularjs de celle-ci, c'est dans ce fichier que vont être intégré les différentes vues fournies par ngRoute, de plus les styles et sources Javascript sont chargés depuis ce fichier (CF: commentaire)
+```code
+<!-- Main module -->
+<body ng-app="userDatabaseApp">
+
+<!-- Views injection -->
+<div ng-view=""></div>
+```
+* app/scritps/app.js : ce fichier définit le module principale de l'application, les modules dont il dépend et déclare les routes accessibles avec $routeProvider
+```javascript
+angular
+  .module('userDatabaseApp', ['ngRoute', ...])
+  .config(function ($routeProvider) {
+  //On définit pour une url un template html, et un controller angularjs à rendre au client
+    $routeProvider
+      .when('/', {
+        templateUrl: 'views/main.html',
+        controller: 'MainCtrl'
+      })
+      .otherwise({
+        redirectTo: '/'
+      });
+  });
+```
+* app/scripts/controllers/ : dans ce dossier sont définis les controllers de l'application, ces fichiers doivent être ajouter dans index.html pour être intégrés dans l'application (il faut envisager de séparer le code de manière fonctionnelle en créant des répertoires pour les services : app/scripts/services et pour les directives : app/scripts/directives
+* app/views/ : dans ce dossier sont définies les vues qui seront injectés par le $routeProvider dans le fichier index.html
